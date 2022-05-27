@@ -1,3 +1,4 @@
+
 // Global Variables
 var winningWord = '';
 var currentRow = 1;// Row of guesses ?? I guess theres 5 total ???
@@ -21,7 +22,12 @@ var gameOverGuessCount = document.querySelector('#game-over-guesses-count');
 var gameOverGuessGrammar = document.querySelector('#game-over-guesses-plural');
 
 // Event Listeners
-window.addEventListener('load', setGame);
+window.addEventListener('load', () => {
+  fetch('http://localhost:3001/api/v1/words').then(response => response.json())
+  .then(data => {
+  setGame(data);
+}).catch(error => console.log(error))
+});
 
 for (var i = 0; i < inputs.length; i++) {
   inputs[i].addEventListener('keyup', function() { moveToNextInput(event) });
@@ -41,15 +47,15 @@ viewGameButton.addEventListener('click', viewGame);
 viewStatsButton.addEventListener('click', viewStats);
 
 // Functions
-function setGame() {
+function setGame(data) {
   currentRow = 1;
-  winningWord = getRandomWord();
+  winningWord = getRandomWord(data);
   updateInputPermissions();
 }
 
-function getRandomWord() {
+function getRandomWord(data) {
   var randomIndex = Math.floor(Math.random() * 2500);
-  return words[randomIndex];
+  return data[randomIndex];
 }
 
 function updateInputPermissions() {
