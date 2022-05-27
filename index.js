@@ -1,6 +1,6 @@
 // Global Variables
 var winningWord = '';
-var currentRow = 1;
+var currentRow = 1;// Row of guesses ?? I guess theres 5 total ???
 var guess = '';
 var gamesPlayed = [];
 
@@ -26,11 +26,12 @@ window.addEventListener('load', setGame);
 for (var i = 0; i < inputs.length; i++) {
   inputs[i].addEventListener('keyup', function() { moveToNextInput(event) });
 }
-
+//^ moves on to next input, although its annoying becaause it moves no matter what the keyup is I think it needs
+//a refactor
 for (var i = 0; i < keyLetters.length; i++) {
   keyLetters[i].addEventListener('click', function() { clickLetter(event) });
 }
-
+//
 guessButton.addEventListener('click', submitGuess);
 
 viewRulesButton.addEventListener('click', viewRules);
@@ -54,13 +55,14 @@ function getRandomWord() {
 function updateInputPermissions() {
   for(var i = 0; i < inputs.length; i++) {
     if(!inputs[i].id.includes(`-${currentRow}-`)) {
-      inputs[i].disabled = true;
+      inputs[i].disabled = true; //inputs enabled when current row is the same as ID
     } else {
       inputs[i].disabled = false;
     }
   }
 
-  inputs[0].focus();
+  inputs[0].focus(); // focus makes the keyboard focused on this element aka the first input of
+  //row 1
 }
 
 function moveToNextInput(e) {
@@ -82,7 +84,6 @@ function clickLetter(e) {
       activeIndex = i;
     }
   }
-
   activeInput.value = e.target.innerText;
   inputs[activeIndex + 1].focus();
 }
